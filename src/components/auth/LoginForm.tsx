@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { login } from "../../services/authService";
 import type { LoginPayload } from "../../types/auth";
+import { useAuthStore } from "../../stores/auth.store";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
+  const navigate = useNavigate();
+  const authLogin = useAuthStore((state) => state.login);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -16,8 +21,9 @@ function LoginForm() {
     const payload: LoginPayload = { username, password };
 
     try {
-      const data = await login(payload);
-      console.log("Login successful!", data);
+      const { user, token } = await login(payload);
+      authLogin(user, token);
+      navigate("/");
     } catch (err: any) {
       console.log("login falsed:", err);
       setError(err.response?.data?.message || "An unexpected error occurred.");
