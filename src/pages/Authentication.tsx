@@ -4,6 +4,11 @@ import RegisterForm from "../components/auth/RegisterForm";
 
 type AuthMode = "login" | "register";
 
+/**
+ * The main authentication page for the application.
+ * It allows users to switch between login and registration forms.
+ * @returns A React element representing the authentication page.
+ */
 function Authentication() {
   const [mode, setMode] = useState<AuthMode>("login");
 

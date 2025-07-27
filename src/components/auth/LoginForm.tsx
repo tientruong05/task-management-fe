@@ -4,6 +4,11 @@ import type { LoginPayload } from "../../types/auth";
 import { useAuthStore } from "../../stores/auth.store";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Renders a login form and handles the user authentication process.
+ * It manages form state, loading indicators, and displays errors.
+ * @returns A React element containing the login form.
+ */
 function LoginForm() {
   const navigate = useNavigate();
   const authLogin = useAuthStore((state) => state.login);
@@ -13,15 +18,23 @@ function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+    /**
+   * Handles the form submission for user login.
+   * It prevents the default form submission, sends the login payload to the auth service,
+   * and manages the application state upon success or failure.
+   * @param event The form submission event.
+   */
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
     setError(null);
 
     const payload: LoginPayload = { username, password };
+    console.log("Sending payload:", payload);
 
     try {
       const { user, token } = await login(payload);
+      console.log("Received from API:", { user, token });
       authLogin(user, token);
       navigate("/");
     } catch (err: any) {

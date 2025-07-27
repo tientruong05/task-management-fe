@@ -2,6 +2,11 @@ import { useState } from "react";
 import { register } from "../../services/authService";
 import type { RegisterPayload } from "../../types/auth";
 
+/**
+ * Renders a registration form and handles the user registration process.
+ * It manages form state, loading indicators, and displays errors.
+ * @returns A React element containing the registration form.
+ */
 function RegisterForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -9,6 +14,12 @@ function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+    /**
+   * Handles the form submission for user registration.
+   * It prevents the default form submission, sends the registration payload to the auth service,
+   * and handles the response, displaying a success message or an error.
+   * @param event The form submission event.
+   */
   const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
